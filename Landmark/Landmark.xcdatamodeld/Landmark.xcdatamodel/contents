@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15D21" minimumToolsVersion="Automatic">
+    <entity name="Landmark" representedClassName="Landmark" syncable="YES">
+        <attribute name="landAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landImageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landLatitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landLongitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landPhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="landURL" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Landmark" positionX="-63" positionY="-18" width="128" height="163"/>
+    </elements>
+</model>
