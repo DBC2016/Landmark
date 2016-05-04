@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "Landmark.h"
 
-
 @interface ViewController ()
 
 
@@ -20,6 +19,8 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSArray                *landmarkArray;
 @property (nonatomic, weak)   IBOutlet  UITableView  *landmarkTableView;
+@property (nonatomic, strong) IBOutlet UISearchBar   *landmarkSearchBar;
+
 
 
 
@@ -28,6 +29,12 @@
 @end
 
 @implementation ViewController
+
+
+
+
+
+
 
 #pragma mark - Map View Methods
 
@@ -67,8 +74,8 @@
     [_landmarkMap removeAnnotations:pinsToRemove];
     
     // ADD PINS
-    NSLog(@"About to display: %li",_landmarkArray.count);
-    for (Landmark *currentLandmark in _landmarkArray) {
+    NSLog(@"About to display: %li",_appDelegate.landmarkArray.count);
+    for (Landmark *currentLandmark in _appDelegate.landmarkArray) {
         MKPointAnnotation *pa1 = [[MKPointAnnotation alloc] init];
         pa1.coordinate = CLLocationCoordinate2DMake([currentLandmark.landLatitude floatValue], [currentLandmark.landLongitude floatValue]);
         pa1.title = currentLandmark.landName;
@@ -179,7 +186,7 @@
     pa10.landLongitude = @"-83.041271";
     pa10.landName = @"Greektown Casino";
     pa10.landDescription =@"Casino/Hotel/NightLife";
-    pa10.landAddress = @"555 E Lafayette St, Detroit, MI 48226";
+    pa10.landAddress = @"555 E. Lafayette St, Detroit, MI 48226";
     pa10.landPhoneNumber=@"313-223-2999";
     pa10.landImageName=@" ";
     pa10.landURL=@"greektowncasino.com";
@@ -191,16 +198,24 @@
     
 }
 
-
-//FETCH RECORDS
-
--(NSArray *)fetchItems {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Landmark" inManagedObjectContext:_managedObjectContext];
-    [fetchRequest setEntity:entity];
-    NSError *error;
-    NSArray *fetchResults = [_managedObjectContext executeFetchRequest:fetchRequest error:& error];
-    return fetchResults;
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    NSLog(@"VFA");
+    if (annotation != mapView.userLocation) {
+        MKPinAnnotationView *pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
+        if (pinView == nil) {
+            pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
+        }
+        pinView.canShowCallout = true;
+        pinView.animatesDrop = true;
+        pinView.pinTintColor = [UIColor purpleColor];
+        UIButton *pinButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        pinView.tag = 2;
+        //      pinButton.tag = _landmarkArray
+        //      pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        pinView.rightCalloutAccessoryView = pinButton;
+        return pinView;
+    }
+    return nil;
     
 }
 
@@ -209,41 +224,55 @@
 
 
 
-//
-//    -(void)setupLocationMonitoring {
-//        _locationMgr = [[CLLocationManager alloc] init];
-//        _locationMgr.delegate = self;
-//        _locationMgr.desiredAccuracy = kCLLocationAccuracyBest;
-//
-//        if ([CLLocationManager locationServicesEnabled]) {
-//            NSLog(@"Loc Svs Enabled");
-//            switch ([CLLocationManager authorizationStatus]) {
-//                case kCLAuthorizationStatusAuthorizedAlways:
-//                    [self turnOnLocationMonitoring];
-//                    break;
-//                case  kCLAuthorizationStatusAuthorizedWhenInUse:
-//                    [self turnOnLocationMonitoring];
-//                    break;
-//                case kCLAuthorizationStatusDenied:
-//                    NSLog(@"Hey Turn Us Back on!");
-//                    break;
-//                case kCLAuthorizationStatusNotDetermined:
-//                    if ([_locationMgr respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-//
-//                        [_locationMgr requestWhenInUseAuthorization];
-//                    }
-//                    break;
-//                case kCLAuthorizationStatusRestricted:
-//                    NSLog(@"Hey Turn Us Back On!");
-//                default:
-//                    break;
-//            }
-//        } else {
-//            NSLog(@"Turn it on Location Services in Settings!");
-//        }
-//
-//
-//    }
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    CLLocation *lastLoc = locations.lastObject;
+    NSLog(@"LastLoc: %f,%f", lastLoc.coordinate.latitude, lastLoc.coordinate.longitude);
+    [self zoomToLocationWithLat:lastLoc.coordinate.latitude andLon:lastLoc.coordinate.longitude andDiam:500];
+    
+    
+}
+
+- (void)turnOnLocationMonitoring {
+    [_locationMgr startUpdatingLocation];
+    _landmarkMap.showsUserLocation = true;
+}
+
+
+
+-(void)setupLocationMonitoring {
+    _locationMgr = [[CLLocationManager alloc] init];
+    _locationMgr.delegate = self;
+    _locationMgr.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([CLLocationManager locationServicesEnabled]) {
+        NSLog(@"Loc Svs Enabled");
+        switch ([CLLocationManager authorizationStatus]) {
+            case kCLAuthorizationStatusAuthorizedAlways:
+                [self turnOnLocationMonitoring];
+                break;
+            case  kCLAuthorizationStatusAuthorizedWhenInUse:
+                [self turnOnLocationMonitoring];
+                break;
+            case kCLAuthorizationStatusDenied:
+                NSLog(@"Hey Turn Us Back on!");
+                break;
+            case kCLAuthorizationStatusNotDetermined:
+                if ([_locationMgr respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+                    
+                    [_locationMgr requestWhenInUseAuthorization];
+                }
+                break;
+            case kCLAuthorizationStatusRestricted:
+                NSLog(@"Hey Turn Us Back On!");
+            default:
+                break;
+        }
+        } else {
+        NSLog(@"Turn it on Location Services in Settings!");
+    }
+    
+    
+}
 
 
 
@@ -255,15 +284,15 @@
     [super viewDidLoad];
     _appDelegate = [[UIApplication sharedApplication] delegate];
     _managedObjectContext = _appDelegate.managedObjectContext;
-    [self tempAddRecords];
+//    [self tempAddRecords];
 }
 
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //        [self setupLocationMonitoring];
-    _landmarkArray = [self fetchItems];
-    NSLog(@"Count: %li",_landmarkArray.count);
+    _appDelegate.landmarkArray = [_appDelegate fetchItems];
+    NSLog(@"Count: %li",_appDelegate.landmarkArray.count);
     [self annotateMapLocations];
 }
 

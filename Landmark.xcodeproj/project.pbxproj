@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6287CC831CD949D100455375 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6287CC821CD949D100455375 /* TableViewController.m */; };
+		6287CC861CD94C4400455375 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6287CC851CD94C4400455375 /* DetailViewController.m */; };
 		62F19E621CD7C9C800D47461 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F19E611CD7C9C800D47461 /* main.m */; };
 		62F19E651CD7C9C800D47461 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F19E641CD7C9C800D47461 /* AppDelegate.m */; };
 		62F19E681CD7C9C800D47461 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F19E671CD7C9C800D47461 /* ViewController.m */; };
@@ -21,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6287CC811CD949D100455375 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		6287CC821CD949D100455375 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		6287CC841CD94C4400455375 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		6287CC851CD94C4400455375 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		62F19E5D1CD7C9C800D47461 /* Landmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Landmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62F19E611CD7C9C800D47461 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		62F19E631CD7C9C800D47461 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -78,7 +84,11 @@
 				62F19E641CD7C9C800D47461 /* AppDelegate.m */,
 				62F19E661CD7C9C800D47461 /* ViewController.h */,
 				62F19E671CD7C9C800D47461 /* ViewController.m */,
+				6287CC841CD94C4400455375 /* DetailViewController.h */,
+				6287CC851CD94C4400455375 /* DetailViewController.m */,
 				62F19E691CD7C9C800D47461 /* Main.storyboard */,
+				6287CC811CD949D100455375 /* TableViewController.h */,
+				6287CC821CD949D100455375 /* TableViewController.m */,
 				62F19E6F1CD7C9C800D47461 /* Assets.xcassets */,
 				62F19E711CD7C9C800D47461 /* LaunchScreen.storyboard */,
 				62F19E741CD7C9C800D47461 /* Info.plist */,
@@ -174,8 +184,10 @@
 				62F19E681CD7C9C800D47461 /* ViewController.m in Sources */,
 				62F19E651CD7C9C800D47461 /* AppDelegate.m in Sources */,
 				62F19E621CD7C9C800D47461 /* main.m in Sources */,
+				6287CC861CD94C4400455375 /* DetailViewController.m in Sources */,
 				62F19E831CD7D15B00D47461 /* Landmark.m in Sources */,
 				62F19E821CD7D15B00D47461 /* Landmark+CoreDataProperties.m in Sources */,
+				6287CC831CD949D100455375 /* TableViewController.m in Sources */,
 				62F19E6E1CD7C9C800D47461 /* Landmark.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +339,7 @@
 				62F19E791CD7C9C800D47461 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
